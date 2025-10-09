@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лиам Мёрфи</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #2c2c2e url('foto.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #rain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .raindrop {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8));
+            animation: rain 1.5s linear infinite;
+            filter: blur(0.5px);
+        }
+
+        @keyframes rain {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .profile {
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .name-container {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            margin-bottom: 10px;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        .name {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: block;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease forwards;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:nth-child(1) { animation-delay: 0.2s; }
+        .btn:nth-child(2) { animation-delay: 0.4s; }
+        .btn:nth-child(3) { animation-delay: 0.6s; }
+        .btn:nth-child(4) { animation-delay: 0.8s; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(44, 44, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-text {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .telegram-link:hover {
+            color: #00a2ff;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-pic {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .name {
+                font-size: 2rem;
+            }
+            
+            .name-container {
+                padding: 12px 30px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .name {
+                font-size: 1.8rem;
+            }
+            
+            .name-container {
+                padding: 10px 25px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .footer {
+                font-size: 0.8rem;
+            }
+            
+            .modal-content {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="rain-overlay"></div>
+    
+    <div class="container">
+        <section class="profile">
+            <img src="fot.jpg" alt="Лиам Мёрфи" class="profile-pic">
+            <div class="name-container">
+                <h1 class="name">Лиам Мёрфи</h1>
+            </div>
+        </section>
+        
+        <section class="buttons-container">
+            <a href="#" class="btn" id="about-btn">Обо мне</a>
+            <a href="#" class="btn" id="reviews-btn">Отзывы</a>
+            <a href="#" class="btn" id="price-btn">Прайс</a>
+            <a href="#" class="btn" id="accounts-btn">Продажа аккаунтов</a>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        Все права защищены &copy; <span id="current-year"></span>
+    </footer>
+
+    <!-- Modal for About section -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Обо мне</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <p class="modal-text">
+                Меня зовут Лиам Мёрфи, я кодер с большим опытом работы и продажник аккаунтов. 
+                В свои 16 лет я уже успел побывать в разных проектах (обычно сайты для компаний 
+                на тематику строительство) и продать большое количество аккаунтов! 
+                Я жду вас в своем шопе 
+                <a href="https://t.me/fiztornode" class="telegram-link" target="_blank">@fiztornode</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function createRain() {
+            const rainOverlay = document.getElementById('rain-overlay');
+            const rainCount = 200;
+            
+            for (let i = 0; i < rainCount; i++) {
+                const raindrop = document.createElement('div');
+                raindrop.classList.add('raindrop');
+                
+                const left = Math.random() * 100;
+                const animationDelay = Math.random() * 5;
+                const animationDuration = 0.5 + Math.random() * 1.5;
+                const height = 30 + Math.random() * 70;
+                
+                raindrop.style.left = `${left}vw`;
+                raindrop.style.animationDelay = `${animationDelay}s`;
+                raindrop.style.animationDuration = `${animationDuration}s`;
+                raindrop.style.height = `${height}px`;
+                
+                rainOverlay.appendChild(raindrop);
+            }
+        }
+        
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        const aboutModal = document.getElementById('about-modal');
+        const aboutBtn = document.getElementById('about-btn');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        aboutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            aboutModal.style.display = 'flex';
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            aboutModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === aboutModal) {
+                aboutModal.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('reviews-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://t.me/+xTDxIj5QY4YzMTY0', '_blank');
+        });
+        
+        document.getElementById('price-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://t.me/praicetor', '_blank');
+        });
+        
+        document.getElementById('accounts-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://t.me/fiztornode', '_blank');
+        });
+        
+        createRain();
+        
+        window.addEventListener('resize', function() {
+            const rainOverlay = document.getElementById('rain-overlay');
+            rainOverlay.innerHTML = '';
+            createRain();
+        });
+    </script>
+</body>
+</html>
