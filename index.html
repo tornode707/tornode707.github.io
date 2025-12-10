@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лиам Мёрфи</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #2c2c2e url('foto1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #snow-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            pointer-events: none;
+            user-select: none;
+            animation: fall linear forwards;
+            will-change: transform;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 20px;
+            display: block;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .santa-hat {
+            position: absolute;
+            top: -80px;
+            left: 45%;
+            transform: translateX(-50%);
+            width: 160px; 
+            height: auto;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
+
+        .name-container {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            margin-bottom: 10px;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        .name {
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 0, 0.7);
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            position: relative;
+            display: block;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease forwards;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+
+        .btn::after {
+            content: '❄';
+            position: absolute;
+            bottom: 1px; 
+            left: 98%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            opacity: 0.9;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            to { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:nth-child(1) { animation-delay: 0.2s; }
+        .btn:nth-child(2) { animation-delay: 0.4s; }
+        .btn:nth-child(3) { animation-delay: 0.6s; }
+        .btn:nth-child(4) { animation-delay: 0.8s; }
+
+        #music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        #music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #music-btn::after {
+            content: '❄️';
+            font-size: 24px;
+        }
+
+        #music-btn.playing::after {
+            content: '🎵';
+        }
+
+        #sock {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 36px;
+            z-index: 100;
+            cursor: pointer;
+            transition: transform 0.3s;
+            user-select: none;
+        }
+
+        #sock:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(44, 44, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease;
+            color: #fff;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-text {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .telegram-link:hover {
+            color: #00a2ff;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-pic { width: 150px; height: 150px; }
+            .santa-hat { width: 150px; top: -50px; }
+            .name { font-size: 2rem; }
+            .name-container { padding: 12px 30px; }
+            .btn { padding: 12px 25px; font-size: 1.1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .profile-pic { width: 120px; height: 120px; }
+            .santa-hat { width: 120px; top: -40px; }
+            .name { font-size: 1.8rem; }
+            .name-container { padding: 10px 25px; }
+            .btn { padding: 10px 20px; font-size: 1rem; }
+            .footer { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="snow-overlay"></div>
+
+    <div id="sock">🎉</div>
+
+    <div id="music-btn"></div>
+
+    <audio id="bg-music" loop>
+        <source src="crismas.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <div id="greeting-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">С Новым Годом! 🎄</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <p class="modal-text">
+                Пусть Новый год, стучась в окно,🚀<br><br>
+                Принесёт лишь всё хорошее.✨<br><br>
+                И будет жизнь волшебным сном,🌟<br><br>
+                А каждый миг — жарким огнём!❤️<br><br>
+                С наступающим! Лиам 🎁🔥
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="profile">
+            <img src="fot.jpg" alt="Лиам Мёрфи" class="profile-pic">
+            <img src="hel.png" alt="Шапка" class="santa-hat">
+            <div class="name-container">
+                <h1 class="name">Лиам Мёрфи</h1>
+            </div>
+        </section>
+        
+        <section class="buttons-container">
+            <a href="#" class="btn" id="about-btn">Обо мне</a>
+            <a href="#" class="btn" id="reviews-btn">Отзывы</a>
+            <a href="#" class="btn" id="price-btn">Прайс</a>
+            <a href="#" class="btn" id="accounts-btn">Продажа аккаунтов</a>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        Все права защищены &copy; <span id="current-year"></span>
+    </footer>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Обо мне</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <p class="modal-text">
+                Специализируюсь на программировании в области кибербезопасности и взлома: автоматизация, обход защитных систем, анализ уязвимостей, разработка скриптов (Python, С, С++, С#, web), reverse engineering, создание инструментов для стресс-тестирования. Параллельно занимаюсь продажей готовых Telegram-аккаунтов — подготовленных активов под монетизацию, арбитраж или рассылку, с историей и аудиторией. Навыки включают парсинг, работу с инструментами анонимизации и безопасную передачу аккаунтов. Опыт в реализации частных проектов. Работаю анонимно через защищенные каналы. 
+                <a href="https://t.me/fiztornode" class="telegram-link" target="_blank">@fiztornode</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function createSnow() {
+            const snowOverlay = document.getElementById('snow-overlay');
+            const existingSnowflakes = snowOverlay.querySelectorAll('.snowflake');
+            
+            if (existingSnowflakes.length >= 100) {
+                const toRemove = existingSnowflakes.length - 90;
+                for (let i = 0; i < toRemove; i++) {
+                    existingSnowflakes[i].remove();
+                }
+            }
+
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+
+            const left = Math.random() * 100;
+            const size = 0.6 + Math.random() * 0.8;
+            const duration = 8 + Math.random() * 10;
+
+            snowflake.style.left = `${left}vw`;
+            snowflake.style.fontSize = `${size}em`;
+            snowflake.style.opacity = 0.7 + Math.random() * 0.3;
+            snowflake.style.animationDuration = `${duration}s`;
+            snowflake.style.animationDelay = `0s`;
+
+            snowOverlay.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createSnow, 1500); 
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        const aboutModal = document.getElementById('about-modal');
+        const aboutBtn = document.getElementById('about-btn');
+        const closeBtns = document.querySelectorAll('.close-btn');
+
+        aboutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            aboutModal.style.display = 'flex';
+        });
+
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.modal').style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        document.getElementById('reviews-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://t.me/+vbkMQ63101hmNGRk', '_blank');
+        });
+
+        document.getElementById('price-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://t.me/praicetor', '_blank');
+        });
+
+        document.getElementById('accounts-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.open('https://t.me/fiztornode', '_blank');
+        });
+
+        document.getElementById('sock').addEventListener('click', () => {
+            document.getElementById('greeting-modal').style.display = 'flex';
+        });
+
+        const musicBtn = document.getElementById('music-btn');
+        const music = document.getElementById('bg-music');
+        music.volume = 0.3;
+
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicBtn.classList.add('playing');
+                }).catch(e => {
+                    console.log('Ошибка воспроизведения:', e);
+                });
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+            }
+        });
+
+        createSnow();
+    </script>
+</body>
+</html>
+
