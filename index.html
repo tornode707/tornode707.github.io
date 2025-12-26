@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== CSS-переменные для двух тем ===== */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f9f9f9;
@@ -37,7 +36,6 @@
             --accent: #ffffff;
         }
 
-        /* ===== Сброс и базовые стили ===== */
         * {
             margin: 0;
             padding: 0;
@@ -59,7 +57,6 @@
             transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
         }
 
-        /* ===== Глобальные анимации ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -100,7 +97,6 @@
         .stagger-2 { animation-delay: 0.2s; }
         .stagger-3 { animation-delay: 0.3s; }
 
-        /* ===== Кнопка переключения темы ===== */
         .theme-toggle {
             background: none;
             border: none;
@@ -144,7 +140,6 @@
             opacity: 1;
         }
 
-        /* ===== Навигация ===== */
         nav {
             position: fixed;
             top: 0;
@@ -199,7 +194,6 @@
             width: 100%;
         }
 
-        /* ===== Бургер-меню ===== */
         .burger-menu {
             display: none;
             flex-direction: column;
@@ -234,7 +228,6 @@
             transform: rotate(-45deg) translate(6px, -6px);
         }
 
-        /* ===== Hero секция ===== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -365,7 +358,6 @@
             transition: background var(--transition-duration) ease;
         }
 
-        /* ===== Обо мне ===== */
         .about-content {
             display: grid;
             grid-template-columns: 1fr;
@@ -409,7 +401,6 @@
             transition: color var(--transition-duration) ease;
         }
 
-        /* ===== Навыки ===== */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -461,7 +452,6 @@
             border-radius: 3px;
         }
 
-        /* ===== Проекты ===== */
         .projects-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -547,7 +537,6 @@
             font-size: 0.95rem;
         }
 
-        /* ===== Контакты ===== */
         .contact-content {
             text-align: center;
             max-width: 600px;
@@ -609,7 +598,6 @@
             transition: fill var(--transition-duration) ease;
         }
 
-        /* ===== Footer ===== */
         footer {
             background: var(--bg-secondary);
             color: var(--text-secondary);
@@ -619,7 +607,6 @@
             transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
         }
 
-        /* ===== Адаптивность ===== */
         @media (max-width: 768px) {
             nav {
                 padding: 1rem;
@@ -719,7 +706,6 @@
             }
         }
 
-        /* ===== Оптимизация для печати ===== */
         @media print {
             nav, .scroll-indicator, .cta-button, .theme-toggle {
                 display: none;
@@ -731,12 +717,10 @@
             }
         }
 
-        /* ===== Улучшения производительности ===== */
         .will-animate {
             will-change: transform, opacity;
         }
 
-        /* ===== Скрытые элементы для скрин-ридеров ===== */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -767,10 +751,7 @@
                 <li><a href="#projects">Проекты</a></li>
                 <li><a href="#contact">Контакты</a></li>
             </ul>
-            
-            <!-- Кнопка переключения темы (только в правом верхнем углу) -->
             <button class="theme-toggle" aria-label="Переключить тему">
-                <!-- Иконка солнца с лучиками -->
                 <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="12" cy="12" r="5"/>
                     <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -784,7 +765,6 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                     </g>
                 </svg>
-                <!-- Иконка луны -->
                 <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                 </svg>
@@ -793,7 +773,6 @@
         <div class="menu-overlay"></div>
     </nav>
 
-    <!-- Hero секция -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1 class="animate-in will-animate">Лиам Мёрфи</h1>
@@ -880,17 +859,14 @@
                     <p>Портфолио включает e-commerce платформы, API сервисы и аналитические дашборды. Использую современный стек технологий для создания масштабируемых решений.</p>
                     <div class="project-tech">
                         <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Vue 3</span>
                         <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Express</span>
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">HTML/CSS</span>
-                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">C</span>
                         <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">Firebase</span>
-                        <span class="tech-tag">JWT</span>
-                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">C++</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">TypeScript</span>
                     </div>
                     <a href="https://tornode707.github.io/dev" class="cta-button">Смотреть проекты</a>
                 </div>
@@ -919,7 +895,6 @@
     </footer>
 
     <script>
-        // ===== Типинг-эффект =====
         const phrases = [
             'Full-stack разработчик',
             'Универсальный программист',
@@ -953,8 +928,7 @@
         }
         
         typeEffect();
-
-        // ===== Бургер-меню =====
+        
         const burgerMenu = document.querySelector('.burger-menu');
         const navMenu = document.querySelector('.nav-menu');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -989,7 +963,6 @@
             }
         });
 
-        // ===== Переключение темы =====
         const themeToggles = document.querySelectorAll('.theme-toggle');
         const bodyElement = document.body;
 
@@ -1023,7 +996,6 @@
 
         initTheme();
 
-        // ===== Intersection Observer =====
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1049,7 +1021,6 @@
             observer.observe(el);
         });
 
-        // ===== Плавная прокрутка =====
         document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1062,8 +1033,7 @@
                 }
             });
         });
-
-        // ===== Дебаунсер ресайза =====
+        
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
@@ -1072,14 +1042,12 @@
             }, 250);
         });
 
-        // ===== Предзагрузка шрифтов =====
         if ('fonts' in document) {
             document.fonts.ready.then(() => {
                 console.log('Fonts loaded');
             });
         }
 
-        // ===== Ленивая загрузка изображений =====
         if ('IntersectionObserver' in window) {
             const imageObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1097,4 +1065,5 @@
         }
     </script>
 </body>
+
 </html>
