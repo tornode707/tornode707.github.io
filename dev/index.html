@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Загрузка...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ЭКРАН ЗАГРУЗКИ */
+        .loader-screen {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
+            padding: 20px;
+        }
+
+        .loader-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ГЛИЧ-ЛОГОТИП */
+        .glitch-logo {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            letter-spacing: 0.2em;
+            margin-bottom: clamp(30px, 8vh, 50px);
+            animation: float 3s ease-in-out infinite;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .glitch-logo::before,
+        .glitch-logo::after {
+            content: 'ЗАГРУЗКА';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .glitch-logo::before {
+            animation: glitch-1 0.5s infinite;
+            z-index: -1;
+            color: #fff;
+            text-shadow: 2px 0 red;
+        }
+
+        .glitch-logo::after {
+            animation: glitch-2 0.5s infinite;
+            z-index: -2;
+            color: #fff;
+            text-shadow: -2px 0 blue;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+            20% { clip-path: inset(20% 0 60% 0); transform: translateX(-5px); }
+            40% { clip-path: inset(50% 0 20% 0); transform: translateX(5px); }
+            60% { clip-path: inset(10% 0 80% 0); transform: translateX(-3px); }
+            80% { clip-path: inset(80% 0 10% 0); transform: translateX(3px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+            20% { clip-path: inset(80% 0 10% 0); transform: translateX(5px); }
+            40% { clip-path: inset(20% 0 60% 0); transform: translateX(-5px); }
+            60% { clip-path: inset(40% 0 40% 0); transform: translateX(3px); }
+            80% { clip-path: inset(10% 0 80% 0); transform: translateX(-3px); }
+        }
+
+        /* АНИМИРОВАННЫЕ ТОЧКИ */
+        .loading-dots {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-bottom: clamp(25px, 6vh, 40px);
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        /* ПРОГРЕСС-БАР */
+        .progress-container {
+            width: min(300px, 85vw);
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #fff 0%, #888 50%, #fff 100%);
+            background-size: 200px 100%;
+            width: 0%;
+            animation: loading 3s ease-in-out forwards, shimmer 0.8s infinite;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        /* СТАТУС */
+        .status-text {
+            margin-top: clamp(20px, 5vh, 30px);
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            max-width: 90%;
+            line-height: 1.4;
+        }
+
+        /* ЭКРАН "В РАЗРАБОТКЕ" */
+        .development-screen {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .development-screen.show {
+            display: flex;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .construction-icon {
+            font-size: clamp(4rem, 15vw, 8rem);
+            margin-bottom: clamp(20px, 5vh, 30px);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .development-text {
+            font-size: clamp(1.5rem, 7vw, 2.5rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+            position: relative;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .development-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            transform: scaleX(0);
+            animation: underline 1.5s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes underline {
+            to { transform: scaleX(1); }
+        }
+
+        .subtext {
+            font-size: clamp(0.8rem, 3.5vw, 1rem);
+            opacity: 0.6;
+            margin-top: clamp(20px, 4vh, 30px);
+            font-style: italic;
+            text-align: center;
+            max-width: 90%;
+            line-height: 1.4;
+        }
+
+        /* СПЕЦИАЛЬНЫЕ СТИЛИ ДЛЯ ОЧЕНЬ МАЛЕНЬКИХ ЭКРАНОВ */
+        @media (max-width: 480px) {
+            .loader-screen,
+            .development-screen {
+                padding: 15px;
+                justify-content: flex-start;
+                padding-top: 35vh;
+            }
+
+            .glitch-logo {
+                letter-spacing: 0.1em;
+            }
+
+            .development-text {
+                letter-spacing: 0.15em;
+            }
+        }
+
+        /* ДЛЯ СРЕДНИХ ЭКРАНОВ (ПЛАНШЕТЫ) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .loader-screen,
+            .development-screen {
+                padding: 40px;
+            }
+        }
+
+        /* ПРЕДОТВРАЩЕНИЕ МОРГАНИЯ ПРИ ЗАГРУЗКЕ */
+        .no-fouc {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="no-fouc">
+    <!-- ЭКРАН ЗАГРУЗКИ -->
+    <div class="loader-screen" id="loaderScreen">
+        <div class="glitch-logo">ЗАГРУЗКА</div>
+        <div class="loading-dots">Подождите</div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <div class="status-text" id="statusText">Инициализация системы...</div>
+    </div>
+
+    <!-- ЭКРАН "В РАЗРАБОТКЕ" -->
+    <div class="development-screen" id="devScreen">
+        <div class="construction-icon">🚧</div>
+        <div class="development-text">В разработке</div>
+        <div class="subtext">Скоро здесь что-то крутое будет...</div>
+    </div>
+
+    <script>
+        // Убираем эффект мерцания при загрузке
+        window.addEventListener('load', function() {
+            document.body.classList.remove('no-fouc');
+        });
+
+        // Обновление статуса во время загрузки
+        const statusMessages = [
+            "Инициализация системы...",
+            "Загрузка модулей...",
+            "Подключение к серверу...",
+            "Почти готово..."
+        ];
+
+        let currentStatus = 0;
+        const statusElement = document.getElementById('statusText');
+
+        // Меняем статус каждую секунду
+        const statusInterval = setInterval(() => {
+            currentStatus++;
+            if (currentStatus < statusMessages.length) {
+                statusElement.style.opacity = '0';
+                setTimeout(() => {
+                    statusElement.textContent = statusMessages[currentStatus];
+                    statusElement.style.opacity = '1';
+                }, 300);
+            }
+        }, 800);
+
+        // После завершения загрузки
+        setTimeout(() => {
+            clearInterval(statusInterval);
+            const loaderScreen = document.getElementById('loaderScreen');
+            const devScreen = document.getElementById('devScreen');
+            
+            loaderScreen.classList.add('hide');
+            
+            setTimeout(() => {
+                devScreen.classList.add('show');
+            }, 800);
+        }, 3500);
+    </script>
+</body>
+</html>
