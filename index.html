@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Персональный сайт программиста | Full-stack разработка">
+    <title>Лиам Мёрфи | Программист</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS-переменные для двух тем ===== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9f9f9;
+            --bg-hero: radial-gradient(circle at center, #f9f9f9 0%, #ffffff 100%);
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --card-hover: rgba(0, 0, 0, 0.05);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --transition-duration: 0.5s;
+            --accent: #000000;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-hero: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --border-color: #333333;
+            --card-bg: #1a1a1a;
+            --card-hover: rgba(255, 255, 255, 0.05);
+            --shadow: rgba(255, 255, 255, 0.1);
+            --accent: #ffffff;
+        }
+
+        /* ===== Сброс и базовые стили ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+        }
+
+        /* ===== Глобальные анимации ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--accent); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+
+        /* ===== Кнопка переключения темы ===== */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all var(--transition-duration) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            transition: all var(--transition-duration) ease;
+            color: var(--accent); /* Цвет для currentColor */
+        }
+
+        .sun-icon {
+            opacity: 1;
+        }
+
+        .moon-icon {
+            opacity: 0;
+            position: absolute;
+        }
+
+        [data-theme="dark"] .sun-icon {
+            opacity: 0;
+        }
+
+        [data-theme="dark"] .moon-icon {
+            opacity: 1;
+        }
+
+        /* ===== Навигация ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-primary);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            transform: translateY(-100%);
+            animation: fadeInUp 0.5s ease-out 0.5s forwards;
+            transition: background-color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition-duration) ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width var(--transition-duration) ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Бургер-меню ===== */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .burger-menu span {
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: all var(--transition-duration) ease;
+            transform-origin: center;
+        }
+
+        .burger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .burger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* ===== Hero секция ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: var(--bg-hero);
+            transition: background var(--transition-duration) ease;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            color: var(--text-primary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        .typing-container {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            height: 2rem;
+            margin-bottom: 2rem;
+            transition: color var(--transition-duration) ease;
+        }
+
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--accent);
+            animation: typing 3s steps(30) 1s forwards, blink 0.75s step-end infinite;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all var(--transition-duration) ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: float 2s ease-in-out infinite;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: opacity var(--transition-duration) ease;
+        }
+
+        .scroll-indicator svg path {
+            fill: var(--accent);
+            transition: fill var(--transition-duration) ease;
+        }
+
+        /* ===== Секции ===== */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            position: relative;
+            color: var(--text-primary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 1rem auto 0;
+            transition: background var(--transition-duration) ease;
+        }
+
+        /* ===== Обо мне ===== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .about-content {
+                grid-template-columns: 300px 1fr;
+            }
+        }
+
+        .avatar {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            transition: background var(--transition-duration) ease;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .avatar:hover img {
+            transform: scale(1.1);
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        /* ===== Навыки ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-duration) ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .skill-card.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow);
+            border-color: var(--text-secondary);
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            transition: background var(--transition-duration) ease;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--accent);
+            width: 0;
+            transition: width 1.5s ease-out;
+            border-radius: 3px;
+        }
+
+        /* ===== Проекты ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 735px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all var(--transition-duration) ease;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .project-card.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--shadow);
+            border-color: var(--text-secondary);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            transition: background var(--transition-duration) ease;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        .project-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            transition: color var(--transition-duration) ease;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-tag {
+            padding: 0.4rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all var(--transition-duration) ease;
+            cursor: default;
+            color: var(--text-secondary);
+        }
+
+        .tech-tag:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: scale(1.05);
+        }
+
+        .project-content .cta-button {
+            margin-top: 1rem;
+            padding: 0.9rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* ===== Контакты ===== */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            color: var(--text-secondary);
+            transition: color var(--transition-duration) ease;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all var(--transition-duration) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-link:hover {
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .contact-link:hover::before {
+            left: 0;
+        }
+
+        .contact-link svg {
+            fill: currentColor;
+            transition: fill var(--transition-duration) ease;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            transition: background var(--transition-duration) ease, color var(--transition-duration) ease;
+        }
+
+        /* ===== Адаптивность ===== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .burger-menu {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 6rem 2rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -5px 0 15px var(--shadow);
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--shadow);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity var(--transition-duration) ease, visibility var(--transition-duration) ease;
+                z-index: 998;
+            }
+
+            .menu-overlay.active {
+                opacity: 0.5;
+                visibility: visible;
+            }
+
+            nav a::after {
+                display: none;
+            }
+
+            nav a {
+                font-size: 1.2rem;
+                padding: 0.5rem 0;
+                display: block;
+                transition: color var(--transition-duration) ease;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .project-tech {
+                gap: 0.4rem;
+            }
+
+            .tech-tag {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ===== Оптимизация для печати ===== */
+        @media print {
+            nav, .scroll-indicator, .cta-button, .theme-toggle {
+                display: none;
+            }
+
+            body {
+                background: var(--white);
+                color: var(--black);
+            }
+        }
+
+        /* ===== Улучшения производительности ===== */
+        .will-animate {
+            will-change: transform, opacity;
+        }
+
+        /* ===== Скрытые элементы для скрин-ридеров ===== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Навигация -->
+    <nav role="navigation" aria-label="Основная навигация">
+        <div class="nav-container">
+            <button class="burger-menu" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#skills">Навыки</a></li>
+                <li><a href="#projects">Проекты</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+            
+            <!-- Кнопка переключения темы (только в правом верхнем углу) -->
+            <button class="theme-toggle" aria-label="Переключить тему">
+                <!-- Иконка солнца с лучиками -->
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="5"/>
+                    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </g>
+                </svg>
+                <!-- Иконка луны -->
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="menu-overlay"></div>
+    </nav>
+
+    <!-- Hero секция -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="animate-in will-animate">Лиам Мёрфи</h1>
+            <div class="typing-container animate-in stagger-1 will-animate">
+                <span class="typing-text"></span>
+            </div>
+            <a href="#contact" class="cta-button">Связаться со мной</a>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <path d="M15 20L10 15L12 13L15 16L18 13L20 15L15 20Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Обо мне -->
+    <section id="about">
+        <h2 class="section-title animate-in">Обо мне</h2>
+        <div class="about-content">
+            <div class="avatar animate-in stagger-1">
+                <img src="fot.jpg" alt="Аватар">
+            </div>
+            <div class="about-text animate-in stagger-2">
+                <p>Привет! Я — full-stack разработчик с 5-летним опытом создания масштабируемых веб-приложений. Специализируюсь на современных JavaScript-фреймворках и архитектуре ПО.</p>
+                <br>
+                <p>Моя страсть — писать чистый, эффективный код и создавать продукты, которые решают реальные проблемы пользователей. Постоянно учусь новым технологиям и следую лучшим практикам разработки.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Навыки -->
+    <section id="skills">
+        <h2 class="section-title animate-in">Навыки</h2>
+        <div class="skills-grid">
+            <div class="skill-card" data-skill="90">
+                <div class="skill-header">
+                    <span>JavaScript</span>
+                    <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress"></div>
+                </div>
+            </div>
+            <div class="skill-card" data-skill="85">
+                <div class="skill-header">
+                    <span>HTML/CSS</span>
+                    <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress"></div>
+                </div>
+            </div>
+            <div class="skill-card" data-skill="80">
+                <div class="skill-header">
+                    <span>Node.js</span>
+                    <span class="skill-percent">80%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress"></div>
+                </div>
+            </div>
+            <div class="skill-card" data-skill="75">
+                <div class="skill-header">
+                    <span>Python</span>
+                    <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Проекты -->
+    <section id="projects">
+        <h2 class="section-title animate-in">Проекты</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="foto1.jfif" alt="Проекты">
+                </div>
+                <div class="project-content">
+                    <h3>Мои проекты</h3>
+                    <p>Портфолио включает e-commerce платформы, API сервисы и аналитические дашборды. Использую современный стек технологий для создания масштабируемых решений.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Vue 3</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">HTML/CSS</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">JWT</span>
+                        <span class="tech-tag">D3.js</span>
+                    </div>
+                    <a href="https://tornode707.github.io/dev" class="cta-button">Смотреть проекты</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contact">
+        <h2 class="section-title animate-in">Контакты</h2>
+        <div class="contact-content animate-in stagger-1">
+            <p>Готов к новым проектам и интересным задачам. Давайте создадим что-то крутое вместе!</p>
+            <div class="contact-links">
+                <a href="https://t.me/haliza" target="_blank" rel="noopener" class="contact-link">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.84c-.18.78-.73.97-1.49.71l-5.49-1.68l-2.56 2.57c-.3.31-.56.57-1.14.57c-.25 0-.56-.12-.88-.44z"/>
+                    </svg>
+                    <span>Telegram</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Лиам Мёрфи. Сделано с любовью 🎲.</p>
+    </footer>
+
+    <script>
+        // ===== Типинг-эффект =====
+        const phrases = [
+            'Full-stack разработчик',
+            'Универсальный программист',
+            'Технический лидер'
+        ];
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.querySelector('.typing-text');
+        
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                setTimeout(() => isDeleting = true, 1500);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+            
+            setTimeout(typeEffect, isDeleting ? 50 : 100);
+        }
+        
+        typeEffect();
+
+        // ===== Бургер-меню =====
+        const burgerMenu = document.querySelector('.burger-menu');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        function toggleMenu() {
+            burgerMenu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            const isActive = burgerMenu.classList.contains('active');
+            burgerMenu.setAttribute('aria-expanded', isActive);
+            burgerMenu.setAttribute('aria-label', isActive ? 'Закрыть меню' : 'Открыть меню');
+            
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        }
+
+        burgerMenu.addEventListener('click', toggleMenu);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+
+        // ===== Переключение темы =====
+        const themeToggles = document.querySelectorAll('.theme-toggle');
+        const bodyElement = document.body;
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                bodyElement.setAttribute('data-theme', savedTheme);
+            } else {
+                bodyElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = bodyElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            bodyElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            themeToggles.forEach(toggle => {
+                toggle.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    toggle.style.transform = '';
+                }, 500);
+            });
+        }
+
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', toggleTheme);
+        });
+
+        initTheme();
+
+        // ===== Intersection Observer =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    if (entry.target.classList.contains('skill-card')) {
+                        const progressBar = entry.target.querySelector('.skill-progress');
+                        const skill = entry.target.getAttribute('data-skill');
+                        setTimeout(() => {
+                            progressBar.style.width = skill + '%';
+                        }, 200);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== Плавная прокрутка =====
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ===== Дебаунсер ресайза =====
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                console.log('Viewport resized');
+            }, 250);
+        });
+
+        // ===== Предзагрузка шрифтов =====
+        if ('fonts' in document) {
+            document.fonts.ready.then(() => {
+                console.log('Fonts loaded');
+            });
+        }
+
+        // ===== Ленивая загрузка изображений =====
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src || img.src;
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    </script>
+</body>
+</html>
