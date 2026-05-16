@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>About | Liam Murphy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="icon" type="image/x-icon" href="../media/icons/site.ico">
+</head>
+<body class="page page-about" data-page="about" data-enter-mode="gate" data-enter-audio="../media/audio/music.mp3">
+    <video id="bg-video" class="bg-video bg-video--landscape" muted loop playsinline webkit-playsinline preload="metadata" poster="../media/images/poster.png">
+        <source src="../media/video/new.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+    <audio id="bg-audio" loop preload="none">
+        <source src="../media/audio/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="enter-screen" class="enter-screen" type="button" aria-label="Enter about page">
+        <video id="enter-video" class="enter-screen__video enter-screen__video--horizontal" muted loop autoplay playsinline webkit-playsinline preload="metadata" poster="../media/images/poster.png">
+            <source src="../media/intro/darling-intro.mp4" type="video/mp4">
+        </video>
+        <span class="enter-screen__overlay"></span>
+        <span id="enter-text" class="enter-screen__label">click to enter...</span>
+    </button>
+
+    <div id="site-shell" class="site-shell is-hidden">
+        <main class="card card--subpage">
+            <a class="back-link" href="../index.htm">back to main</a>
+
+            <header class="page-header page-header--about">
+                <div class="profile__avatar-wrap profile__avatar-wrap--about">
+                    <img class="profile__avatar" src="../media/images/ava.gif" alt="Liam Murphy avatar">
+                </div>
+                <h1>обо мне</h1>
+                <p>Делаю визуально аккуратные сайты, приватные системы и fullstack-сборки, где важны стиль, скорость и нормальная логика внутри.</p>
+            </header>
+
+            <section class="about-grid" aria-label="About Liam">
+                <article class="info-card">
+                    <h2>чем занимаюсь</h2>
+                    <p>Frontend, backend, кастомные страницы, кабинеты, интеграции, автоматизация и оформление под конкретный характер проекта.</p>
+                </article>
+
+                <article class="info-card">
+                    <h2>подход</h2>
+                    <p>Сначала структура и удобство, потом визуал, затем оптимизация под телефон, планшет и десктоп без случайных поломок.</p>
+                </article>
+
+                <article class="info-card">
+                    <h2>формат работы</h2>
+                    <p>Можно собрать быстрый лендинг, многостраничный сайт или закрытый сервис с API, базой данных и админкой.</p>
+                </article>
+
+                <article class="info-card">
+                    <h2>связь</h2>
+                    <p>Основной контакт: Telegram <a class="inline-link" target="_blank" rel="noreferrer" href="https://t.me/mulori">@mulori</a></p>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Created by Liam</p>
+        </footer>
+    </div>
+
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>
